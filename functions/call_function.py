@@ -28,8 +28,10 @@ def function_call(function_call_part, verbose=False):
         "write_file": write_file,
     }
     if function_call_part.name in functions:
+        args = dict(function_call_part.args)
+        args["working_directory"] = WORKING_DIR
         called_function = functions[function_call_part.name]
-        function_result = called_function(WORKING_DIR, **function_call_part.args)
+        function_result = called_function(**args)
         return types.Content(
             role="tool",
             parts=[
